@@ -1,0 +1,6 @@
+*.csv
+config.json
+venv
+build
+dist
+files
