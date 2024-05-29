@@ -2,13 +2,13 @@ import customtkinter
 from PIL import Image
 import os
 import threading
-
+import json
 from inc import combined
 from inc import upload
 from inc import cron
 
 
-class HomeFrame(customtkinter.CTkFrame):
+class ProductUpdate(customtkinter.CTkFrame):
     def __init__(self, parent, large_test_image, base_path, root_path):
         super().__init__(parent, corner_radius=0, fg_color="white")
 
@@ -44,7 +44,7 @@ class HomeFrame(customtkinter.CTkFrame):
             fg_color="#fdf3a8",
             text_color="#796d13",
             hover_color="#fdf3a8",
-            text="打開檔案資料夾",
+            text="檔案位置",
             image=self.open_folder_image,
             command=lambda: os.startfile(os.path.join(base_path, "files")),
         )
@@ -132,11 +132,21 @@ class HomeFrame(customtkinter.CTkFrame):
                 self.button_2.configure(state="normal")
 
         def run_upload_process():
+            config_path = os.path.join(base_path, "config.json")
+
+            with open(config_path, "r") as f:
+                config_data = json.load(f)
+
             try:
                 btn_state("lock")
                 combined.run_process(base_path, pt)
-                upload.run_process(base_path, pt, progress_callback=update_progress)
-                cron.run_process(base_path, pt)
+                upload.run_process(
+                    base_path,
+                    pt,
+                    config_data["update"]["text"],
+                    progress_callback=update_progress,
+                )
+                cron.run_process(base_path, pt, config_data["update"]["text"])
                 pt(f"\n\n-----------所有任務執行完畢-----------")
             except Exception as e:
                 print(f"\n")

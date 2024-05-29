@@ -13,7 +13,7 @@ def trigger_job(cron_trigger_url,pt):
         try:
             response = requests.get(cron_trigger_url)
             if response.status_code == 200 or "already triggered. Request skipped" in response.json().get("message", ""):
-
+                
                 pt(f"Trigger呼叫成功，Processing執行中")
                 return True  # Trigger successful, exit function
             else:
@@ -35,6 +35,7 @@ def processing_job(cron_processing_url,pt):
         retry_count += 1
 
         try:
+            
             response = requests.get(cron_processing_url)
             pt(f"Response data:{response.text}") 
 
@@ -54,15 +55,8 @@ def processing_job(cron_processing_url,pt):
             break
 
 
-def run_process(param,pt=None):
-    pt(f"#### 任務調用 ####\n")
-    
-    config_path = os.path.join(param, "config.json")
-    
-    with open(config_path, "r") as f:
-        config_data = json.load(f)
-        
-         
-    trigger_job(config_data["update"]["trigger_url"],pt)
+def run_process(param,pt=None, config_data=None):
+    pt(f"#### 任務調用 ####\n") 
+    trigger_job(f"{config_data['cron_url']}&action=trigger",pt)
 
-    processing_job(config_data["update"]["processing_url"],pt)
+    processing_job(f"{config_data['cron_url']}&action=processing",pt)

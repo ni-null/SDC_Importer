@@ -8,8 +8,8 @@ from tqdm import tqdm
 
 from PIL import Image
 
-from page import home_frame
-from page import second_frame
+from page import product_update
+from page import product_state
 from page import about_frame
 
 
@@ -131,13 +131,15 @@ class App(customtkinter.CTk):
 
         # create home frame
 
-        self.home_frame = home_frame.HomeFrame(
+        self.product_update = product_update.ProductUpdate(
             self, self.large_test_image, base_path, root_path
         )
 
         # create second frame
 
-        self.second_frame = second_frame.SecondFrame(self, self.large_test_image)
+        self.product_state = product_state.ProductState(
+            self, self.large_test_image, base_path, root_path
+        )
 
         # create third frame
         self.about_frame = about_frame.AboutFrame(self, self.large_test_image)
@@ -159,13 +161,13 @@ class App(customtkinter.CTk):
 
         # show selected frame
         if name == "home":
-            self.home_frame.grid(row=0, column=1, sticky="nsew")
+            self.product_update.grid(row=0, column=1, sticky="nsew")
         else:
-            self.home_frame.grid_forget()
+            self.product_update.grid_forget()
         if name == "frame_2":
-            self.second_frame.grid(row=0, column=1, sticky="nsew")
+            self.product_state.grid(row=0, column=1, sticky="nsew")
         else:
-            self.second_frame.grid_forget()
+            self.product_state.grid_forget()
         if name == "about":
             self.about_frame.grid(row=0, column=1, sticky="nsew")
         else:
