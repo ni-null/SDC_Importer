@@ -88,7 +88,7 @@ class App(customtkinter.CTk):
             corner_radius=0,
             height=40,
             border_spacing=10,
-            text="商品更新",
+            text="商品資料更新",
             fg_color="transparent",
             text_color=("gray10", "gray90"),
             hover_color=("#b4eaff", "#b4eaff"),
@@ -104,7 +104,7 @@ class App(customtkinter.CTk):
             corner_radius=0,
             height=40,
             border_spacing=10,
-            text="Frame 2",
+            text="商品上下架",
             fg_color="transparent",
             text_color=("gray10", "gray90"),
             hover_color=("#b4eaff", "#b4eaff"),
@@ -113,6 +113,7 @@ class App(customtkinter.CTk):
             command=self.frame_2_button_event,
         )
         self.frame_2_button.grid(row=2, column=0, sticky="ew")
+        self.frame_2_button.configure(**style)
 
         self.frame_3_button = customtkinter.CTkButton(
             self.navigation_frame,
