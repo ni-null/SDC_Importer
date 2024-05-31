@@ -36,15 +36,16 @@ def upload_from_file(src, dst, pt=None, progress_callback=None):
         response = requests.put(dst, data=monitor, headers=headers)
 
 
-def run_process(base_path, pt=None, config_data=None, progress_callback=None):
+def run_process(local_file_path, pt=None, config_data=None, progress_callback=None):
     pt(f"#### 檔案上傳中 ####\n")
     retries = 0
     max_retries = 3
     success = False
 
     while retries < max_retries and not success:
-        SRC = os.path.join(base_path, "files", "combined_file.csv")
+        SRC = local_file_path
         DST = config_data["file_upload_url"]
+        print(DST)
 
         try:
             upload_from_file(SRC, DST, pt, progress_callback)

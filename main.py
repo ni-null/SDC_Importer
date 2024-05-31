@@ -115,21 +115,6 @@ class App(customtkinter.CTk):
         self.frame_2_button.grid(row=2, column=0, sticky="ew")
         self.frame_2_button.configure(**style)
 
-        self.frame_3_button = customtkinter.CTkButton(
-            self.navigation_frame,
-            corner_radius=0,
-            height=40,
-            border_spacing=10,
-            text="Frame 3",
-            fg_color="transparent",
-            text_color=("gray10", "gray90"),
-            hover_color=("#b4eaff", "#b4eaff"),
-            image=self.add_user_image,
-            anchor="w",
-            command=self.frame_3_button_event,
-        )
-        self.frame_3_button.grid(row=3, column=0, sticky="ew")
-
         # create home frame
 
         self.product_update = product_update.ProductUpdate(
@@ -156,9 +141,6 @@ class App(customtkinter.CTk):
         self.frame_2_button.configure(
             fg_color=("#b4eaff", "#b4eaff") if name == "frame_2" else "transparent"
         )
-        self.frame_3_button.configure(
-            fg_color=("#b4eaff", "#b4eaff") if name == "frame_3" else "transparent"
-        )
 
         # show selected frame
         if name == "home":
@@ -169,19 +151,12 @@ class App(customtkinter.CTk):
             self.product_state.grid(row=0, column=1, sticky="nsew")
         else:
             self.product_state.grid_forget()
-        if name == "about":
-            self.about_frame.grid(row=0, column=1, sticky="nsew")
-        else:
-            self.about_frame.grid_forget()
 
     def home_button_event(self):
         self.select_frame_by_name("home")
 
     def frame_2_button_event(self):
         self.select_frame_by_name("frame_2")
-
-    def frame_3_button_event(self):
-        self.select_frame_by_name("about")
 
     def change_appearance_mode_event(self, new_appearance_mode):
         customtkinter.set_appearance_mode(new_appearance_mode)

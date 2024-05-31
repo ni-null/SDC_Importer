@@ -1,5 +1,6 @@
 *.csv
 config.json
+sdc_data
 venv
 build
 dist

@@ -3,7 +3,7 @@ from PIL import Image
 import os
 import threading
 import json
-from inc import combined
+from inc import product_update_combined
 from inc import upload
 from inc import cron
 
@@ -34,6 +34,15 @@ class ProductUpdate(customtkinter.CTkFrame):
             command=lambda: self.textbox.delete("1.0", customtkinter.END),
         )
         self.clear_image_button_.grid(row=1, column=0, padx=(20, 0), pady=0, sticky="w")
+
+        self.CTkLabel = customtkinter.CTkLabel(
+            self, text="Console", fg_color="transparent", **style
+        ).grid(
+            row=1,
+            column=0,
+            padx=(20, 0),
+            pady=0,
+        )
 
         self.open_folder_image = customtkinter.CTkImage(
             Image.open(os.path.join(image_path, "folder.png")), size=(20, 20)
@@ -139,9 +148,11 @@ class ProductUpdate(customtkinter.CTkFrame):
 
             try:
                 btn_state("lock")
-                combined.run_process(base_path, pt)
+                product_update_combined.run_process(
+                    os.path.join(base_path, "sdc_data/update"), pt
+                )
                 upload.run_process(
-                    base_path,
+                    os.path.join(base_path, "sdc_data/update", "product_update.csv"),
                     pt,
                     config_data["update"]["text"],
                     progress_callback=update_progress,

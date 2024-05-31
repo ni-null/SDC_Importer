@@ -2,11 +2,11 @@ import os
 import pandas as pd
 
 
-def run_process(param, pt=None):
+def run_process(files_path, pt=None):
     pt(f"#### 合併符合的CSV檔案 ####\n")
     # 獲取當前工作目錄下的所有檔案列表
 
-    files_path = os.path.join(param, "files")  # 檔案所在目錄
+    # 檔案所在目錄
     file_list = os.listdir(files_path)
 
     combined_data = pd.DataFrame()  # 合併後的資料
@@ -20,7 +20,7 @@ def run_process(param, pt=None):
     for file_name in file_list:
         if file_name.endswith(".csv") and file_name.startswith(
             "survey_item_list_"
-        ):  # 排除 combined_file.csv
+        ):  # 排除 product_update.csv
             file_path = os.path.join(files_path, file_name)
 
             # 讀取CSV檔案
@@ -67,10 +67,10 @@ def run_process(param, pt=None):
 
     #
     if process_file_num == 0:
-        delete_file_path = os.path.join(files_path, "combined_file.csv")
+        delete_file_path = os.path.join(files_path, "product_update.csv")
         if os.path.exists(delete_file_path):
             os.remove(delete_file_path)
-            pt(f"發現舊『combined_file.csv』已刪除")
+            pt(f"發現舊『product_update.csv』已刪除")
         raise ValueError("警告:停止運行，沒發現可用檔案")
 
     # 檢查所有檔案的標題行是否一致
@@ -80,7 +80,7 @@ def run_process(param, pt=None):
         pt("\n檢查格式 :  所有檔案中的標題行都是一致的")
 
         # 儲存合併後的結果到一個新的CSV檔案
-        combined_file_path = os.path.join(files_path, "combined_file.csv")
-        combined_data.to_csv(combined_file_path, index=False, encoding="utf-8-sig")
+        product_update_path = os.path.join(files_path, "product_update.csv")
+        combined_data.to_csv(product_update_path, index=False, encoding="utf-8-sig")
 
     pt(f"\n檔案已經合併，共有{sum_num}筆資料\n\n")

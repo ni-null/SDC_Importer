@@ -7,72 +7,122 @@ from PIL import Image
 import os
 import threading
 import json
-from inc import creat_product_state_csv
+from inc import product_state_creat_csv
 
 
 class ProductState(customtkinter.CTkFrame):
     def __init__(self, parent, large_test_image, base_path, root_path):
         super().__init__(parent, corner_radius=0, fg_color="white")
-        self.grid_columnconfigure(0, weight=1)
-        self.grid_rowconfigure(2, weight=1)
 
         style = {"font": ("微軟正黑體", 14, "bold")}
+
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_columnconfigure(2, weight=1)
 
         self.second_frame_large_image_label = customtkinter.CTkLabel(
             self, text="", image=large_test_image
         )
-        self.second_frame_large_image_label.grid(row=0, column=0, padx=20, pady=10)
-
-        # create tabview
-        self.tabview = customtkinter.CTkTabview(self, width=250)
-        self.tabview.grid(row=1, column=0, padx=20, pady=20, sticky="nsew")
-        self.tabview.add("資料輸入")
-        self.tabview.add("Console")
-        self.tabview.tab("資料輸入").grid_columnconfigure(0, weight=1)
-        self.tabview.tab("資料輸入").grid_columnconfigure(1, weight=1)
-        self.tabview.tab("資料輸入").grid_columnconfigure(2, weight=1)
-        self.tabview.tab("Console").grid_columnconfigure(0, weight=1)
-
-        self.tabview.configure(
-            fg_color="transparent", segmented_button_fg_color="#ffffff"
+        self.second_frame_large_image_label.pack(
+            fill="both", expand=True, padx=20, pady=10
         )
+
         # 資料輸入
-        self.textbox = customtkinter.CTkTextbox(
-            self.tabview.tab("資料輸入"), width=300, height=300
+        self.textbox_CTkLabel = customtkinter.CTkLabel(
+            self, text="資料輸入", fg_color="transparent", text_color="#56707a", **style
         )
-        self.textbox.grid(row=1, column=0, columnspan=3, padx=20, pady=10, sticky="EW")
+        self.textbox_CTkLabel.pack(padx=(20, 0), pady=(40, 0))
+
+        self.textbox = customtkinter.CTkTextbox(self, height=150)
+        self.textbox.pack(fill="both", expand=True, padx=20, pady=(0, 10))
+
+        # 按鈕行
+        button_frame = customtkinter.CTkFrame(
+            self, bg_color="transparent", fg_color="transparent"
+        )
+
+        button_frame.pack(fill="x", padx=20, pady=0)
 
         self.button_1 = customtkinter.CTkButton(
-            self.tabview.tab("資料輸入"), text="資料解析", command=self.parse_text
+            button_frame,
+            **style,
+            fg_color="#b4eaff",
+            text_color="#56707a",
+            hover_color="#b4eaff",
+            height=40,
+            text="資料解析",
+            command=self.parse_text,
         )
-        self.button_1.grid(row=2, column=0, padx=20, pady=10, sticky="EW")
+        self.button_1.pack(side="left", expand=True, padx=10, pady=0)
 
         self.button_2 = customtkinter.CTkButton(
-            self.tabview.tab("資料輸入"),
+            button_frame,
+            **style,
+            fg_color="#b4eaff",
+            text_color="#56707a",
+            hover_color="#b4eaff",
+            height=40,
             text="上架商品",
-            command=lambda: self.start_it(base_path),
+            command=lambda: self.creat_csv(base_path, "publish"),
         )
-        self.button_2.grid(row=2, column=1, padx=20, pady=10, sticky="EW")
+        self.button_2.pack(side="left", expand=True, padx=10, pady=0)
 
         self.button_3 = customtkinter.CTkButton(
-            self.tabview.tab("資料輸入"),
+            button_frame,
+            **style,
+            fg_color="#b4eaff",
+            text_color="#56707a",
+            hover_color="#b4eaff",
+            height=40,
             text="下架商品",
-            command=lambda: self.start_it(base_path),
+            command=lambda: self.creat_csv(base_path, "trash"),
         )
-        self.button_3.grid(row=2, column=2, padx=20, pady=10, sticky="EW")
-
-        # 資料輸入
+        self.button_3.pack(side="left", expand=True, padx=10, pady=0)
 
         # Console
 
-        self.textbox_console = customtkinter.CTkTextbox(
-            self.tabview.tab("Console"), width=300, height=300
-        )
-        self.textbox_console.grid(
-            row=1, column=0, columnspan=3, padx=20, pady=10, sticky="EW"
+        textbox_console_frame = customtkinter.CTkFrame(
+            self, bg_color="transparent", fg_color="transparent"
         )
 
-        # Console
+        textbox_console_frame.pack(fill="x", padx=20, pady=0)
+
+        image_path = os.path.join(root_path, "test_images")
+
+        self.clear_textbox_console_button = customtkinter.CTkButton(
+            textbox_console_frame,
+            width=10,
+            fg_color="transparent",
+            hover_color="",
+            text="",
+            image=customtkinter.CTkImage(
+                Image.open(os.path.join(image_path, "eraser.png")), size=(20, 20)
+            ),
+            command=lambda: self.textbox_console.delete("1.0", customtkinter.END),
+        )
+        self.clear_textbox_console_button.pack(
+            side="left", expand=True, padx=0, pady=(40, 0), anchor="w"
+        )
+
+        self.textbox_console_label = customtkinter.CTkLabel(
+            textbox_console_frame,
+            text="Console     ",
+            fg_color="transparent",
+            text_color="#ccc",
+            **style,
+            anchor="center",
+        )
+        self.textbox_console_label.pack(side="left", expand=True, pady=(40, 0))
+        self.textbox_console_label2 = customtkinter.CTkLabel(
+            textbox_console_frame,
+            text="",
+            fg_color="transparent",
+            **style,
+            anchor="center",
+        ).pack(side="left", expand=True, padx=0, pady=(40, 0))
+
+        self.textbox_console = customtkinter.CTkTextbox(self, width=300, height=150)
+        self.textbox_console.pack(fill="both", expand=True, padx=20, pady=(0, 10))
 
     def parse_text(self):
         content = self.textbox.get("1.0", "end-1c")
@@ -80,12 +130,15 @@ class ProductState(customtkinter.CTkFrame):
 
         uid_product_array = re.findall(pattern, content)
 
-        self.textbox.delete("1.0", customtkinter.END)
-        self.textbox.insert(customtkinter.END, "\n" + "\n".join(uid_product_array))
-        return uid_product_array
+        unique_uid_product_array = list(dict.fromkeys(uid_product_array))
 
-    def start_it(self, base_path):
-        print("start_it")
+        self.textbox.delete("1.0", customtkinter.END)
+        self.textbox.insert(
+            customtkinter.END, "\n" + "\n".join(unique_uid_product_array)
+        )
+        return unique_uid_product_array
+
+    def creat_csv(self, base_path, state_str):
 
         def pt(text):
             self.textbox_console.insert(customtkinter.END, "\n" + text)
@@ -99,11 +152,12 @@ class ProductState(customtkinter.CTkFrame):
 
             try:
 
-                creat_product_state_csv.run_process(base_path, pt, self.parse_text())
+                product_state_creat_csv.run_process(
+                    base_path, pt, self.parse_text(), state_str
+                )
 
             except Exception as e:
-                print(f"\n")
-                pt(f"{e}")
+                pt(f"{e}\n")
 
         upload_thread = threading.Thread(target=run_upload_process)
         upload_thread.start()
