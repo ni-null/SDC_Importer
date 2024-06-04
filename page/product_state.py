@@ -21,15 +21,13 @@ class ProductState(customtkinter.CTkFrame):
         self.second_frame_large_image_label = customtkinter.CTkLabel(
             self, text="", image=large_test_image
         )
-        self.second_frame_large_image_label.pack(
-            fill="both", expand=True, padx=20, pady=10
-        )
+        self.second_frame_large_image_label.pack(padx=20, pady=10)
 
         # 資料輸入
         self.textbox_CTkLabel = customtkinter.CTkLabel(
             self, text="資料輸入", fg_color="transparent", text_color="#56707a", **style
         )
-        self.textbox_CTkLabel.pack(padx=(20, 0), pady=(40, 0))
+        self.textbox_CTkLabel.pack(padx=(20, 0), pady=(10, 0))
 
         self.textbox = customtkinter.CTkTextbox(self, height=150)
         self.textbox.pack(fill="both", expand=True, padx=20, pady=(0, 10))
@@ -61,7 +59,7 @@ class ProductState(customtkinter.CTkFrame):
             hover_color="#b4eaff",
             height=40,
             text="上架商品",
-            command=lambda: self.creat_csv(base_path, "publish"),
+            command=lambda: self.creat_csv(base_path, root_path, "publish"),
         )
         self.button_2.pack(side="left", expand=True, padx=10, pady=0)
 
@@ -73,7 +71,7 @@ class ProductState(customtkinter.CTkFrame):
             hover_color="#b4eaff",
             height=40,
             text="下架商品",
-            command=lambda: self.creat_csv(base_path, "trash"),
+            command=lambda: self.creat_csv(base_path, root_path, "trash"),
         )
         self.button_3.pack(side="left", expand=True, padx=10, pady=0)
 
@@ -136,15 +134,15 @@ class ProductState(customtkinter.CTkFrame):
         )
         return unique_uid_product_array
 
-    def creat_csv(self, base_path, state_str):
+    def creat_csv(self, base_path, root_path, state_str):
 
         def pt(text):
             self.textbox_console.insert(customtkinter.END, "\n" + text)
             self.textbox_console.see(customtkinter.END)
 
         def run_upload_process():
-            config_path = os.path.join(base_path, "config.json")
 
+            config_path = os.path.join(root_path, "config.json")
             with open(config_path, "r") as f:
                 config_data = json.load(f)
 

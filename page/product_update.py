@@ -17,38 +17,71 @@ class ProductUpdate(customtkinter.CTkFrame):
         self.second_frame_large_image_label = customtkinter.CTkLabel(
             self, text="", image=large_test_image
         )
-        self.second_frame_large_image_label.grid(row=0, column=0, padx=20, pady=10)
+        self.second_frame_large_image_label.pack(padx=20, pady=10)
 
         image_path = os.path.join(root_path, "test_images")
 
-        self.clear_image = customtkinter.CTkImage(
-            Image.open(os.path.join(image_path, "eraser.png")), size=(20, 20)
+        ### textbox_frame
+        self.textbox_frame = customtkinter.CTkFrame(
+            self, bg_color="transparent", fg_color="transparent"
         )
-        self.clear_image_button_ = customtkinter.CTkButton(
-            self,
-            width=10,
-            fg_color="transparent",
-            hover_color="",
+
+        self.textbox_frame.pack(padx=20, pady=20, fill="both", expand=True)
+
+        self.textbox_frame_tool = customtkinter.CTkFrame(
+            self.textbox_frame, bg_color="transparent", fg_color="transparent"
+        )
+        self.textbox_frame_tool.pack(fill="x", padx=20, pady=0)
+
+        # textbox_frame_tool_sub1
+        self.textbox_frame_tool_sub1 = customtkinter.CTkFrame(
+            self.textbox_frame_tool, bg_color="transparent", fg_color="transparent"
+        )
+        self.textbox_frame_tool_sub1.pack(
+            side="left", anchor="w", padx=20, pady=0, fill="both", expand=True
+        )
+
+        self.textbox_frame_tool_sub1_CTkLabel = customtkinter.CTkLabel(
+            self.textbox_frame_tool_sub1,
             text="",
-            image=self.clear_image,
-            command=lambda: self.textbox.delete("1.0", customtkinter.END),
+            fg_color="transparent",
+            **style,
         )
-        self.clear_image_button_.grid(row=1, column=0, padx=(20, 0), pady=0, sticky="w")
+        self.textbox_frame_tool_sub1_CTkLabel.pack(
+            side="left", padx=(20, 0), pady=0, fill="both", expand=True
+        )
+
+        # textbox_frame_tool_sub1
+
+        # textbox_frame_tool_sub2
+        self.textbox_frame_tool_sub2 = customtkinter.CTkFrame(
+            self.textbox_frame_tool, bg_color="transparent", fg_color="transparent"
+        )
+        self.textbox_frame_tool_sub2.pack(
+            side="left", anchor="center", padx=20, pady=0, fill="both", expand=True
+        )
 
         self.CTkLabel = customtkinter.CTkLabel(
-            self, text="Console", fg_color="transparent", **style
-        ).grid(
-            row=1,
-            column=0,
-            padx=(20, 0),
-            pady=0,
+            self.textbox_frame_tool_sub2,
+            text="Console",
+            fg_color="transparent",
+            **style,
+        )
+        self.CTkLabel.pack(side="left", padx=(20, 0), pady=0, fill="both", expand=True)
+        # textbox_frame_tool_sub2
+        # textbox_frame_tool_sub3
+        self.textbox_frame_tool_sub3 = customtkinter.CTkFrame(
+            self.textbox_frame_tool, bg_color="transparent", fg_color="transparent"
+        )
+        self.textbox_frame_tool_sub3.pack(
+            side="left", anchor="e", padx=0, pady=0, fill="both", expand=True
         )
 
         self.open_folder_image = customtkinter.CTkImage(
             Image.open(os.path.join(image_path, "folder.png")), size=(20, 20)
         )
-        self.open_folder_image = customtkinter.CTkButton(
-            self,
+        self.open_folder_image_button = customtkinter.CTkButton(
+            self.textbox_frame_tool_sub3,
             width=10,
             fg_color="#fdf3a8",
             text_color="#796d13",
@@ -57,56 +90,14 @@ class ProductUpdate(customtkinter.CTkFrame):
             image=self.open_folder_image,
             command=lambda: os.startfile(os.path.join(base_path, "sdc_data/update")),
         )
-        self.open_folder_image.grid(row=1, column=0, pady=5, padx=(0, 20), sticky="e")
-        self.open_folder_image.configure(**style)
+        self.open_folder_image_button.pack(side="right", pady=5)
+        self.open_folder_image_button.configure(**style)
+        # textbox_frame_tool_sub3
 
-        self.frame = customtkinter.CTkFrame(self)
-        self.frame.configure(fg_color="transparent")
-
-        self.frame.grid(row=3, column=0, columnspan=2, padx=20, pady=10, sticky="nEW")
-
-        self.grid_columnconfigure(0, weight=1)
-
-        # self.second_frame_large_image_label = customtkinter.CTkLabel(self, text="", image=large_test_image)
-        # self.second_frame_large_image_label.grid(row=0, column=0, padx=20, pady=10)
-
-        self.frame_2 = customtkinter.CTkFrame(self)
-
-        self.frame_2.grid(row=3, column=0, padx=20, pady=10, sticky="nEW")
-        self.frame_2.grid_columnconfigure(0, weight=1)
-        self.frame_2.grid_columnconfigure(1, weight=1)
-        self.frame_2.configure(fg_color="transparent")
-
-        # 添加一个按钮
-        self.button_1 = customtkinter.CTkButton(
-            self.frame_2,
-            text="文字更新",
-            fg_color="#b4eaff",
-            text_color="#56707a",
-            hover_color="#b4eaff",
-            command=lambda: self.on_button_click(base_path, root_path),
+        self.textbox = customtkinter.CTkTextbox(
+            self.textbox_frame, width=300, height=300
         )
-        self.button_1.grid(row=3, column=0, padx=20, pady=20)
-        self.button_1.configure(**style, height=40)
-        self.button_2 = customtkinter.CTkButton(
-            self.frame_2,
-            text="文字/圖片更新",
-            fg_color="#b4eaff",
-            text_color="#56707a",
-            hover_color="#b4eaff",
-            command=lambda: self.on_button_click(base_path, root_path),
-        )
-        self.button_2.grid(row=3, column=1, padx=20, pady=20)
-        self.button_2.configure(**style, height=40)
-
-        self.progress_bar = customtkinter.CTkProgressBar(
-            self.frame_2, width=200, fg_color="#b4eaff"
-        )
-        self.progress_bar.set(0)
-
-        # 添加一个文本框
-        self.textbox = customtkinter.CTkTextbox(self, width=300, height=300)
-        self.textbox.grid(row=2, column=0, columnspan=2, padx=20, pady=0, sticky="EW")
+        self.textbox.pack(padx=20, pady=0, fill="both", expand=True)
         style = {"font": ("微軟正黑體", 14, "bold")}
 
         self.textbox.configure(
@@ -114,17 +105,53 @@ class ProductUpdate(customtkinter.CTkFrame):
             scrollbar_button_color="#ccf1ff",
             scrollbar_button_hover_color="#81dcff",
         )
+        ### textbox_frame
+
+        self.button_frame = customtkinter.CTkFrame(
+            self, bg_color="transparent", fg_color="transparent"
+        )
+
+        self.button_frame.pack(fill="x", padx=20, pady=0, expand=True)
+
+        self.button_1 = customtkinter.CTkButton(
+            self.button_frame,
+            text="文字更新",
+            fg_color="#b4eaff",
+            text_color="#56707a",
+            hover_color="#b4eaff",
+            command=lambda: self.on_button_click(base_path, root_path),
+        )
+        self.button_1.pack(side="left", padx=20, pady=20, fill="both", expand=True)
+        self.button_1.configure(**style, height=40)
+
+        self.button_2 = customtkinter.CTkButton(
+            self.button_frame,
+            text="文字/圖片更新",
+            fg_color="#b4eaff",
+            text_color="#56707a",
+            hover_color="#b4eaff",
+            command=lambda: self.on_button_click(base_path, root_path),
+        )
+        self.button_2.pack(side="left", padx=20, pady=20, fill="both", expand=True)
+        self.button_2.configure(**style, height=40)
+        ### button_frame
+
+        self.progress_bar = customtkinter.CTkProgressBar(
+            self, width=200, fg_color="#b4eaff"
+        )
+        self.progress_bar.set(0)
 
     def on_button_click(self, base_path, root_path):
+        self.textbox.delete("1.0", customtkinter.END)
 
         def update_progress(progress):
             self.progress_bar.set(progress / 100)
             if progress < 100 and progress > 1:
-                self.progress_bar.grid(
-                    row=4, column=0, columnspan=3, padx=20, pady=20, sticky="EW"
+                self.progress_bar.pack(
+                    side="left", padx=20, pady=20, fill="both", expand=True
                 )
             else:
-                self.progress_bar.grid_forget()
+                self.progress_bar.pack_forget()
 
         # 替換PT
         def pt(text):
@@ -156,7 +183,7 @@ class ProductUpdate(customtkinter.CTkFrame):
                     config_data["update"]["text"],
                     progress_callback=update_progress,
                 )
-                #     cron.run_process(base_path, pt, config_data["update"]["text"])
+                cron.run_process(base_path, pt, config_data["update"]["text"])
                 pt(f"\n\n-----------所有任務執行完畢-----------")
             except Exception as e:
                 print(f"\n")
