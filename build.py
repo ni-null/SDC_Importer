@@ -9,6 +9,7 @@ def build_application():
         "--add-data", "page;page",
         "--add-data", "inc;inc",
         "--add-data", "test_images;test_images",
+        "--add-data", "config.json;.",
         "main.py"
     ]
 

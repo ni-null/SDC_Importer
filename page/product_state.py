@@ -16,10 +16,6 @@ class ProductState(customtkinter.CTkFrame):
 
         style = {"font": ("微軟正黑體", 14, "bold")}
 
-        self.grid_columnconfigure(0, weight=1)
-        self.grid_columnconfigure(1, weight=1)
-        self.grid_columnconfigure(2, weight=1)
-
         self.second_frame_large_image_label = customtkinter.CTkLabel(
             self, text="", image=large_test_image
         )
@@ -37,26 +33,26 @@ class ProductState(customtkinter.CTkFrame):
         self.textbox.pack(fill="both", expand=True, padx=20, pady=(0, 10))
 
         # 按鈕行
-        button_frame = customtkinter.CTkFrame(
+        self.button_frame = customtkinter.CTkFrame(
             self, bg_color="transparent", fg_color="transparent"
         )
 
-        button_frame.pack(fill="x", padx=20, pady=0)
+        self.button_frame.pack(fill="x", padx=20, pady=0)
 
         self.button_1 = customtkinter.CTkButton(
-            button_frame,
+            self.button_frame,
             **style,
-            fg_color="#b4eaff",
-            text_color="#56707a",
-            hover_color="#b4eaff",
+            fg_color="#fbefa5",
+            text_color="#66643A",
+            hover_color="#fbefa5",
             height=40,
-            text="資料解析",
+            text="輸入解析",
             command=self.parse_text,
         )
         self.button_1.pack(side="left", expand=True, padx=10, pady=0)
 
         self.button_2 = customtkinter.CTkButton(
-            button_frame,
+            self.button_frame,
             **style,
             fg_color="#b4eaff",
             text_color="#56707a",
@@ -68,7 +64,7 @@ class ProductState(customtkinter.CTkFrame):
         self.button_2.pack(side="left", expand=True, padx=10, pady=0)
 
         self.button_3 = customtkinter.CTkButton(
-            button_frame,
+            self.button_frame,
             **style,
             fg_color="#b4eaff",
             text_color="#56707a",

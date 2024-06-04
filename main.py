@@ -21,6 +21,7 @@ class App(customtkinter.CTk):
         self.geometry("850x650")
 
         custom_font = ("Times", 30, "bold")
+
         # 專案路徑定義
         base_path = ""
 
@@ -31,11 +32,11 @@ class App(customtkinter.CTk):
         root_path = os.path.dirname(os.path.realpath(__file__))
         # 專案路徑定義
 
-        style = {"font": ("微軟正黑體", 14, "bold")}
+        # 檢查並建立資料夾
+        os.makedirs(os.path.join(base_path, "sdc_data", "state"), exist_ok=True)
+        os.makedirs(os.path.join(base_path, "sdc_data", "update"), exist_ok=True)
 
-        # set grid layout 1x2
-        self.grid_rowconfigure(0, weight=1)
-        self.grid_columnconfigure(1, weight=1)
+        style = {"font": ("微軟正黑體", 14, "bold")}
 
         # load images with light and dark mode image
         image_path = os.path.join(
@@ -70,8 +71,7 @@ class App(customtkinter.CTk):
 
         # create navigation frame
         self.navigation_frame = customtkinter.CTkFrame(self, corner_radius=0)
-        self.navigation_frame.grid(row=0, column=0, sticky="nsew")
-        self.navigation_frame.grid_rowconfigure(4, weight=1)
+        self.navigation_frame.pack(side="left", fill="y")
         self.navigation_frame.configure(fg_color="#d9f4ff")
 
         self.navigation_frame_label = customtkinter.CTkLabel(
@@ -81,7 +81,7 @@ class App(customtkinter.CTk):
             compound="left",
             font=customtkinter.CTkFont(size=15, weight="bold"),
         )
-        self.navigation_frame_label.grid(row=0, column=0, padx=20, pady=20)
+        self.navigation_frame_label.pack(anchor="w", padx=20, pady=20)
 
         self.home_button = customtkinter.CTkButton(
             self.navigation_frame,
@@ -96,7 +96,7 @@ class App(customtkinter.CTk):
             anchor="w",
             command=self.home_button_event,
         )
-        self.home_button.grid(row=1, column=0, sticky="ew")
+        self.home_button.pack(fill="x")
         self.home_button.configure(**style)
 
         self.frame_2_button = customtkinter.CTkButton(
@@ -112,8 +112,24 @@ class App(customtkinter.CTk):
             anchor="w",
             command=self.frame_2_button_event,
         )
-        self.frame_2_button.grid(row=2, column=0, sticky="ew")
+        self.frame_2_button.pack(fill="x")
         self.frame_2_button.configure(**style)
+
+        self.frame_3_button = customtkinter.CTkButton(
+            self.navigation_frame,
+            corner_radius=0,
+            height=40,
+            border_spacing=10,
+            text="商品上下架",
+            fg_color="transparent",
+            text_color=("gray10", "gray90"),
+            hover_color=("#b4eaff", "#b4eaff"),
+            image=self.chat_image,
+            anchor="w",
+        )
+        self.frame_3_button.pack(fill="x", side="bottom", pady=(0, 0))
+
+        self.frame_3_button.configure(**style)
 
         # create home frame
 
@@ -134,23 +150,23 @@ class App(customtkinter.CTk):
         self.select_frame_by_name("home")
 
     def select_frame_by_name(self, name):
-        # set button color for selected button
-        self.home_button.configure(
-            fg_color=("#b4eaff", "#b4eaff") if name == "home" else "transparent"
-        )
-        self.frame_2_button.configure(
-            fg_color=("#b4eaff", "#b4eaff") if name == "frame_2" else "transparent"
-        )
-
+        self.buttons = {
+            "home": self.home_button,
+            "frame_2": self.frame_2_button,
+        }
+        for button in self.buttons.values():
+            button.configure(fg_color="transparent")
         # show selected frame
         if name == "home":
-            self.product_update.grid(row=0, column=1, sticky="nsew")
+            self.product_update.pack(fill="both", expand=True)
+            self.buttons["home"].configure(fg_color="#b4eaff")
         else:
-            self.product_update.grid_forget()
+            self.product_update.pack_forget()
         if name == "frame_2":
-            self.product_state.grid(row=0, column=1, sticky="nsew")
+            self.product_state.pack(fill="both", expand=True)
+            self.buttons["frame_2"].configure(fg_color="#b4eaff")
         else:
-            self.product_state.grid_forget()
+            self.product_state.pack_forget()
 
     def home_button_event(self):
         self.select_frame_by_name("home")

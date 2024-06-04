@@ -55,7 +55,7 @@ class ProductUpdate(customtkinter.CTkFrame):
             hover_color="#fdf3a8",
             text="檔案位置",
             image=self.open_folder_image,
-            command=lambda: os.startfile(os.path.join(base_path, "files")),
+            command=lambda: os.startfile(os.path.join(base_path, "sdc_data/update")),
         )
         self.open_folder_image.grid(row=1, column=0, pady=5, padx=(0, 20), sticky="e")
         self.open_folder_image.configure(**style)
@@ -84,7 +84,7 @@ class ProductUpdate(customtkinter.CTkFrame):
             fg_color="#b4eaff",
             text_color="#56707a",
             hover_color="#b4eaff",
-            command=lambda: self.on_button_click(base_path),
+            command=lambda: self.on_button_click(base_path, root_path),
         )
         self.button_1.grid(row=3, column=0, padx=20, pady=20)
         self.button_1.configure(**style, height=40)
@@ -94,7 +94,7 @@ class ProductUpdate(customtkinter.CTkFrame):
             fg_color="#b4eaff",
             text_color="#56707a",
             hover_color="#b4eaff",
-            command=lambda: self.on_button_click(base_path),
+            command=lambda: self.on_button_click(base_path, root_path),
         )
         self.button_2.grid(row=3, column=1, padx=20, pady=20)
         self.button_2.configure(**style, height=40)
@@ -115,7 +115,7 @@ class ProductUpdate(customtkinter.CTkFrame):
             scrollbar_button_hover_color="#81dcff",
         )
 
-    def on_button_click(self, base_path):
+    def on_button_click(self, base_path, root_path):
 
         def update_progress(progress):
             self.progress_bar.set(progress / 100)
@@ -141,8 +141,7 @@ class ProductUpdate(customtkinter.CTkFrame):
                 self.button_2.configure(state="normal")
 
         def run_upload_process():
-            config_path = os.path.join(base_path, "config.json")
-
+            config_path = os.path.join(root_path, "config.json")
             with open(config_path, "r") as f:
                 config_data = json.load(f)
 
