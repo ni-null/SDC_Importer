@@ -8,6 +8,8 @@ import os
 import threading
 import json
 from inc import product_state_creat_csv
+from inc import upload
+from inc import cron
 
 
 class ProductState(customtkinter.CTkFrame):
@@ -151,6 +153,15 @@ class ProductState(customtkinter.CTkFrame):
                 product_state_creat_csv.run_process(
                     base_path, pt, self.parse_text(), state_str
                 )
+
+                upload.run_process(
+                    os.path.join(base_path, "sdc_data/state", "product_state.csv"),
+                    pt,
+                    config_data["state"],
+                    # progress_callback=update_progress,
+                )
+
+                cron.run_process(base_path, pt, config_data["state"])
 
             except Exception as e:
                 pt(f"{e}\n")

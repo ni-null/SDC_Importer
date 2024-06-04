@@ -25,7 +25,7 @@ def upload_from_file(src, dst, pt=None, progress_callback=None):
         uploaded = monitor.bytes_read
         progress = uploaded / total_size * 100
         # pt(f"Upload progress: {progress:.2f}%")
-        if progress < 100:
+        if progress < 100 and progress_callback:
             progress_callback(progress)
 
     with open(src, "rb") as file:
@@ -33,7 +33,7 @@ def upload_from_file(src, dst, pt=None, progress_callback=None):
         monitor = MultipartEncoderMonitor(encoder, callback)
 
         headers = {"Content-Type": monitor.content_type}
-        response = requests.put(dst, data=monitor, headers=headers)
+        response = requests.post(dst, data=monitor, headers=headers)
 
 
 def run_process(local_file_path, pt=None, config_data=None, progress_callback=None):
@@ -51,7 +51,8 @@ def run_process(local_file_path, pt=None, config_data=None, progress_callback=No
             upload_from_file(SRC, DST, pt, progress_callback)
             success = True
             pt(f"\n檔案上傳成功\n\n ")
-            progress_callback(100)
+            if progress_callback:
+                progress_callback(100)
 
         except Exception as e:
             pt(f"第 {retries+1}/3 次嘗試失敗")
@@ -62,5 +63,6 @@ def run_process(local_file_path, pt=None, config_data=None, progress_callback=No
                 time.sleep(5)
 
     if not success:
-        progress_callback(0)
+        if progress_callback:
+            progress_callback(0)
         raise ValueError("警告: 停止運行，上傳錯誤")

@@ -23,7 +23,7 @@ def run_process(base_path, pt=None, uid_product_array=None, state_str=None):
     # raise ValueError("警告:停止運行，沒發現可用檔案")
 
     # 創建 DataFrame
-    df = pd.DataFrame(uid_product_array, columns=["uid"])
+    df = pd.DataFrame(uid_product_array, columns=["Meta: uid"])
     df["status"] = state_str
     # df["status"] = "trash"
 

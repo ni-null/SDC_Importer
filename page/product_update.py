@@ -156,7 +156,7 @@ class ProductUpdate(customtkinter.CTkFrame):
                     config_data["update"]["text"],
                     progress_callback=update_progress,
                 )
-                cron.run_process(base_path, pt, config_data["update"]["text"])
+                #     cron.run_process(base_path, pt, config_data["update"]["text"])
                 pt(f"\n\n-----------所有任務執行完畢-----------")
             except Exception as e:
                 print(f"\n")
