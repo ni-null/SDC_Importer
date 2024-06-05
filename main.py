@@ -20,8 +20,6 @@ class App(customtkinter.CTk):
         self.title("SDC Importer - 商品資料更新器")
         self.geometry("850x650")
 
-        custom_font = ("Times", 30, "bold")
-
         # 專案路徑定義
         base_path = ""
 

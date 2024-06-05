@@ -45,7 +45,6 @@ def run_process(local_file_path, pt=None, config_data=None, progress_callback=No
     while retries < max_retries and not success:
         SRC = local_file_path
         DST = config_data["file_upload_url"]
-        print(DST)
 
         try:
             upload_from_file(SRC, DST, pt, progress_callback)

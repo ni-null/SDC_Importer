@@ -1,24 +1,66 @@
 import os
 import subprocess
+import sys
+
+
+def create_requirements():
+    try:
+        import pipreqs
+    except ImportError:
+        subprocess.check_call(
+            [sys.executable, "-m", "pip", "install", "pipreqs==0.5.0"]
+        )
+
+    try:
+        subprocess.run(["pipreqs"], check=True)
+        print(f"requirements.txt 檔案已生成")
+    except subprocess.CalledProcessError as e:
+        print(f"運行 pipreqs 失敗: {e}")
+
 
 def build_application():
-    command = [
-        "pyinstaller",
-        "--onefile",
-        "--windowed",
-        "--add-data", "page;page",
-        "--add-data", "inc;inc",
-        "--add-data", "test_images;test_images",
-        "--add-data", "config.json;.",
-        "main.py"
-    ]
+    try:
+        import pyinstaller
+    except ImportError:
+        subprocess.check_call(
+            [sys.executable, "-m", "pip", "install", "pyinstaller==6.7"]
+        )
+
+    # 定義命令參數的字典
+    command = {
+        "base": "pyinstaller",
+        "options": ["--onefile", "--windowed"],
+        "add_data": [
+            {"source": "page", "destination": "page"},
+            {"source": "inc", "destination": "inc"},
+            {"source": "test_images", "destination": "test_images"},
+            {"source": "config.json", "destination": "."},
+        ],
+        "script": "main.py",
+    }
+
+    # 將 requirements.txt 中的套件加入 hidden-imports
+    with open("requirements.txt") as f:
+        requirements = f.read().splitlines()
+
+    command["options"].extend(
+        ["--additional-hooks-dir=.", "--hidden-import", ",".join(requirements)]
+    )
+
+    # 構建命令列表
+    command_list = [command["base"]]
+    for data in command["add_data"]:
+        command_list.extend(["--add-data", f'{data["source"]};{data["destination"]}'])
+    command_list.append(command["script"])
 
     try:
         # 執行 PyInstaller 命令
-        subprocess.run(command, check=True)
+        subprocess.run(command_list, check=True)
         print("\033[92m" + "Build successful!" + "\033[0m")  # GREEN
     except subprocess.CalledProcessError as e:
         print("\033[91m" + f"Build failed: {e}" + "\033[0m")  # RED
 
+
 if __name__ == "__main__":
+    create_requirements()
     build_application()

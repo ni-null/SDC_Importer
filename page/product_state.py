@@ -1,6 +1,4 @@
 import tkinter
-import tkinter.messagebox
-import customtkinter
 import customtkinter
 import re
 from PIL import Image
@@ -146,6 +144,7 @@ class ProductState(customtkinter.CTkFrame):
             with open(config_path, "r") as f:
                 config_data = json.load(f)
 
+            self.textbox_console.delete("1.0", customtkinter.END)
             try:
 
                 product_state_creat_csv.run_process(
@@ -155,11 +154,11 @@ class ProductState(customtkinter.CTkFrame):
                 upload.run_process(
                     os.path.join(base_path, "sdc_data/state", "product_state.csv"),
                     pt,
-                    config_data["state"],
+                    config_data["product_state"],
                     # progress_callback=update_progress,
                 )
 
-                cron.run_process(base_path, pt, config_data["state"])
+                cron.run_process(base_path, pt, config_data["product_state"])
 
             except Exception as e:
                 pt(f"{e}\n")

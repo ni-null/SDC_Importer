@@ -130,7 +130,7 @@ class ProductUpdate(customtkinter.CTkFrame):
             fg_color="#b4eaff",
             text_color="#56707a",
             hover_color="#b4eaff",
-            command=lambda: self.on_button_click(base_path, root_path),
+            command=lambda: self.on_button_click(base_path, root_path, {"img": True}),
         )
         self.button_2.pack(side="left", padx=20, pady=20, fill="both", expand=True)
         self.button_2.configure(**style, height=40)
@@ -141,7 +141,7 @@ class ProductUpdate(customtkinter.CTkFrame):
         )
         self.progress_bar.set(0)
 
-    def on_button_click(self, base_path, root_path):
+    def on_button_click(self, base_path, root_path, product_config_obj=None):
         self.textbox.delete("1.0", customtkinter.END)
 
         def update_progress(progress):
@@ -177,19 +177,26 @@ class ProductUpdate(customtkinter.CTkFrame):
                 product_update_combined.run_process(
                     os.path.join(base_path, "sdc_data/update"), pt
                 )
+
+                update_type = (
+                    "product_update_text_with_img"
+                    if product_config_obj and product_config_obj.get("img")
+                    else "product_update_text"
+                )
+
                 upload.run_process(
                     os.path.join(base_path, "sdc_data/update", "product_update.csv"),
                     pt,
-                    config_data["update"]["text"],
+                    config_data[update_type],
                     progress_callback=update_progress,
                 )
-                cron.run_process(base_path, pt, config_data["update"]["text"])
+
+                cron.run_process(base_path, pt, config_data[update_type])
+
                 pt(f"\n\n-----------所有任務執行完畢-----------")
             except Exception as e:
-                print(f"\n")
                 pt(f"{e}")
             btn_state()
 
-        # Execute upload process asynchronously
         upload_thread = threading.Thread(target=run_upload_process)
         upload_thread.start()
