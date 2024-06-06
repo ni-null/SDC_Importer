@@ -16,7 +16,7 @@ def trigger_job(cron_trigger_url,cron_trigger_cancel_url,pt):
             if trigger_response.json().get("status") == 200 :
                 
                 pt(f"Trigger ※ 呼叫成功")
-                pt(f"Response data : {trigger_response.json().get("message")}\n") 
+                pt(f"Response data : {trigger_response.text}\n") 
                 return True  
             
             elif "already triggered" in trigger_response.json().get("message", "") :

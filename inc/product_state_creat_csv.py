@@ -12,11 +12,11 @@ def run_process(base_path, pt=None, uid_product_array=None, state_str=None):
     else:
         product_state_text = ""
         if state_str == "publish":
-            pt(f"選擇格式『上架』\n")
-            pt(f"{"UID : " + ", ".join(uid_product_array)}\n")
+            pt(f"『上架』\n")
             product_state_text = ""
         elif state_str == "trash":
-            pt(f"選擇格式『下架』\n")
+            pt(f"『下架』\n")
+        pt(f"{"UID : " + ", ".join(uid_product_array)}\n")
 
 
 

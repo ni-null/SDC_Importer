@@ -9,13 +9,18 @@ from inc import cron
 
 
 class ProductUpdate(customtkinter.CTkFrame):
-    def __init__(self, parent, large_test_image, base_path, root_path):
+    def __init__(self, parent, image_path, base_path, root_path):
         super().__init__(parent, corner_radius=0, fg_color="white")
 
         style = {"font": ("微軟正黑體", 14, "bold")}
 
+        self.large_test_image = customtkinter.CTkImage(
+            Image.open(os.path.join(image_path, "product_update.png")),
+            size=(500, 100),
+        )
+
         self.second_frame_large_image_label = customtkinter.CTkLabel(
-            self, text="", image=large_test_image
+            self, text="", image=self.large_test_image
         )
         self.second_frame_large_image_label.pack(padx=20, pady=10)
 
@@ -64,6 +69,7 @@ class ProductUpdate(customtkinter.CTkFrame):
         self.CTkLabel = customtkinter.CTkLabel(
             self.textbox_frame_tool_sub2,
             text="Console",
+            text_color="#a3a3a3",
             fg_color="transparent",
             **style,
         )
@@ -98,7 +104,6 @@ class ProductUpdate(customtkinter.CTkFrame):
             self.textbox_frame, width=300, height=300
         )
         self.textbox.pack(padx=20, pady=0, fill="both", expand=True)
-        style = {"font": ("微軟正黑體", 14, "bold")}
 
         self.textbox.configure(
             **style,
@@ -119,6 +124,10 @@ class ProductUpdate(customtkinter.CTkFrame):
             fg_color="#b4eaff",
             text_color="#56707a",
             hover_color="#b4eaff",
+            image=customtkinter.CTkImage(
+                Image.open(os.path.join(image_path, "product_update_text_icon.png")),
+                size=(15, 15),
+            ),
             command=lambda: self.on_button_click(base_path, root_path),
         )
         self.button_1.pack(side="left", padx=20, pady=20, fill="both", expand=True)
@@ -130,6 +139,10 @@ class ProductUpdate(customtkinter.CTkFrame):
             fg_color="#b4eaff",
             text_color="#56707a",
             hover_color="#b4eaff",
+            image=customtkinter.CTkImage(
+                Image.open(os.path.join(image_path, "product_update_img_icon.png")),
+                size=(15, 15),
+            ),
             command=lambda: self.on_button_click(base_path, root_path, {"img": True}),
         )
         self.button_2.pack(side="left", padx=20, pady=20, fill="both", expand=True)
@@ -191,7 +204,7 @@ class ProductUpdate(customtkinter.CTkFrame):
                     progress_callback=update_progress,
                 )
 
-                cron.run_process(base_path, pt, config_data[update_type])
+                #  cron.run_process(base_path, pt, config_data[update_type])
 
                 pt(f"\n\n-----------所有任務執行完畢-----------")
             except Exception as e:

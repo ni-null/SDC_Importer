@@ -26,7 +26,6 @@ def build_application():
             [sys.executable, "-m", "pip", "install", "pyinstaller==6.7"]
         )
 
-    # 定義命令參數的字典
     command = {
         "base": "pyinstaller",
         "options": ["--onefile", "--windowed"],
@@ -37,20 +36,19 @@ def build_application():
             {"source": "config.json", "destination": "."},
         ],
         "script": "main.py",
+        "icon": "test_images/logo.png",
     }
 
-    # 將 requirements.txt 中的套件加入 hidden-imports
-    with open("requirements.txt") as f:
-        requirements = f.read().splitlines()
+    # 動態生成命令
+    command_list = [
+        command["base"],
+        *command["options"],
+        f'--icon={command["icon"]}',
+    ]
 
-    command["options"].extend(
-        ["--additional-hooks-dir=.", "--hidden-import", ",".join(requirements)]
-    )
-
-    # 構建命令列表
-    command_list = [command["base"]]
     for data in command["add_data"]:
-        command_list.extend(["--add-data", f'{data["source"]};{data["destination"]}'])
+        command_list.append(f'--add-data={data["source"]};{data["destination"]}')
+
     command_list.append(command["script"])
 
     try:
