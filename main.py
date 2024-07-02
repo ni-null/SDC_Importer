@@ -6,12 +6,15 @@ import time
 from requests_toolbelt import MultipartEncoder, MultipartEncoderMonitor
 from tqdm import tqdm
 
+
 from PIL import Image
 from PIL import ImageTk
 
 from page import product_update
 from page import product_state
 from page import about
+
+import logging
 
 
 class App(customtkinter.CTk):
@@ -34,6 +37,20 @@ class App(customtkinter.CTk):
             os.path.dirname(os.path.realpath(__file__)), "test_images"
         )
         # 路徑定義
+
+        # 設定日誌
+        logging.basicConfig(
+            level=logging.DEBUG,
+            format="%(asctime)s  - %(levelname)s - %(message)s",
+            handlers=[
+                logging.FileHandler(os.path.join(base_path, "sdc_data", "app.log")),
+                logging.StreamHandler(),
+            ],
+        )
+
+        logging.getLogger("PIL").setLevel(logging.WARNING)
+
+        # 設定日誌
 
         self.iconpath = ImageTk.PhotoImage(file=os.path.join(image_path, "logo.png"))
         self.wm_iconbitmap()

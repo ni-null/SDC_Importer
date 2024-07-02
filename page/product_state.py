@@ -5,6 +5,10 @@ from PIL import Image
 import os
 import threading
 import json
+import logging
+
+logger = logging.getLogger(__name__)
+
 from inc import product_state_creat_csv
 from inc import upload
 from inc import cron
@@ -38,6 +42,11 @@ class ProductState(customtkinter.CTkFrame):
             **style,
             scrollbar_button_color="#ccf1ff",
             scrollbar_button_hover_color="#81dcff",
+        )
+
+        self.textbox.insert(
+            customtkinter.END,
+            "\n 透過 ctrl + v 在此貼上內容 \n 點擊下方按鈕將自動過濾UID格式",
         )
 
         # 按鈕行
@@ -140,6 +149,7 @@ class ProductState(customtkinter.CTkFrame):
         def pt(text):
             self.textbox_console.insert(customtkinter.END, "\n" + text)
             self.textbox_console.see(customtkinter.END)
+            logging.info(text)
 
         def btn_state(val=None):
             if val == "lock":

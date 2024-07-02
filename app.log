@@ -1,0 +1,38 @@
+2024-06-14 13:57:15,762  - INFO - #### 產生 product_state.csv ####
+
+2024-06-14 13:57:15,782  - INFO - 警告:停止運行，無符合的UID格式
+
+2024-06-14 13:57:33,387  - INFO - #### 產生 product_state.csv ####
+
+2024-06-14 13:57:33,388  - INFO - 『上架』
+
+2024-06-14 13:57:33,390  - INFO - UID : 11111-159
+
+2024-06-14 13:57:33,394  - INFO - CSV 檔案已成功創建
+
+
+2024-06-14 13:57:33,396  - INFO - #### 檔案上傳中 ####
+
+2024-06-14 13:57:33,397  - INFO - 檔案大小 : 0.04 KB
+2024-06-14 13:57:33,400  - DEBUG - Starting new HTTPS connection (1): sdc.org.tw:443
+2024-06-14 13:57:33,765  - DEBUG - https://sdc.org.tw:443 "POST /wp-content/uploads/wpallimport/files/upload.php?filename=product_state.csv HTTP/1.1" 200 None
+2024-06-14 13:57:33,780  - INFO - 
+檔案上傳成功
+
+ 
+2024-06-14 13:57:33,780  - INFO - #### 任務調用 ####
+
+2024-06-14 13:57:33,781  - DEBUG - Starting new HTTPS connection (1): www.sdc.org.tw:443
+2024-06-14 13:57:34,649  - DEBUG - https://www.sdc.org.tw:443 "GET /wp-load.php?import_key=4dOmBVEU&import_id=22&action=trigger HTTP/1.1" 200 50
+2024-06-14 13:57:34,651  - INFO - Trigger ※ 呼叫成功
+2024-06-14 13:57:34,654  - INFO - Response data : {"status":200,"message":"#22 Cron job triggered."}
+
+2024-06-14 13:57:34,657  - INFO - Processing ※ 執行中
+2024-06-14 13:57:34,658  - DEBUG - Starting new HTTPS connection (1): www.sdc.org.tw:443
+2024-06-14 13:57:40,090  - DEBUG - https://www.sdc.org.tw:443 "GET /wp-load.php?import_key=4dOmBVEU&import_id=22&action=processing HTTP/1.1" 200 46
+2024-06-14 13:57:40,093  - INFO - Response data : {"status":200,"message":"Import #22 complete"}
+2024-06-14 13:57:40,094  - DEBUG - Starting new HTTPS connection (1): www.sdc.org.tw:443
+2024-06-14 13:57:40,981  - DEBUG - https://www.sdc.org.tw:443 "GET /wp-load.php?import_key=4dOmBVEU&import_id=22&action=processing HTTP/1.1" 200 72
+2024-06-14 13:57:40,986  - INFO - Response data : {"status":403,"message":"Import #22 is not triggered. Request skipped."}
+2024-06-14 13:57:40,992  - INFO - 
+Processing任務完成

@@ -7,6 +7,10 @@ from inc import product_update_combined
 from inc import upload
 from inc import cron
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 class ProductUpdate(customtkinter.CTkFrame):
     def __init__(self, parent, image_path, base_path, root_path):
@@ -171,6 +175,7 @@ class ProductUpdate(customtkinter.CTkFrame):
 
             self.textbox.insert(customtkinter.END, "\n" + text)
             self.textbox.see(customtkinter.END)
+            logging.info(text)
 
         def btn_state(val=None):
             if val == "lock":
@@ -204,7 +209,7 @@ class ProductUpdate(customtkinter.CTkFrame):
                     progress_callback=update_progress,
                 )
 
-                #  cron.run_process(base_path, pt, config_data[update_type])
+                cron.run_process(base_path, pt, config_data[update_type])
 
                 pt(f"\n\n-----------所有任務執行完畢-----------")
             except Exception as e:
