@@ -38,6 +38,17 @@ class App(customtkinter.CTk):
         )
         # 路徑定義
 
+        self.iconpath = ImageTk.PhotoImage(file=os.path.join(image_path, "logo.png"))
+        self.wm_iconbitmap()
+        self.iconphoto(False, self.iconpath)
+
+        self.title("SDC Importer - 商品更新器")
+        self.geometry("850x650")
+
+        # 檢查並建立資料夾
+        os.makedirs(os.path.join(base_path, "sdc_data", "state"), exist_ok=True)
+        os.makedirs(os.path.join(base_path, "sdc_data", "update"), exist_ok=True)
+
         # 設定日誌
         logging.basicConfig(
             level=logging.DEBUG,
@@ -51,17 +62,6 @@ class App(customtkinter.CTk):
         logging.getLogger("PIL").setLevel(logging.WARNING)
 
         # 設定日誌
-
-        self.iconpath = ImageTk.PhotoImage(file=os.path.join(image_path, "logo.png"))
-        self.wm_iconbitmap()
-        self.iconphoto(False, self.iconpath)
-
-        self.title("SDC Importer - 商品更新器")
-        self.geometry("850x650")
-
-        # 檢查並建立資料夾
-        os.makedirs(os.path.join(base_path, "sdc_data", "state"), exist_ok=True)
-        os.makedirs(os.path.join(base_path, "sdc_data", "update"), exist_ok=True)
 
         style = {"font": ("微軟正黑體", 14, "bold")}
 

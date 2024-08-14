@@ -52,11 +52,7 @@ def run_process(files_path, pt=None):
                 if len(df.columns) > col_index:
                     col_name = df.columns[col_index]
                     df[col_name] = df[col_name].apply(
-                        lambda x: (
-                            x
-                            if pd.isna(x)
-                            else str(x).replace(",", "|").replace(" ", "")
-                        )
+                        lambda x: (x if pd.isna(x) else str(x).replace(",", "|"))
                     )
 
             # 如果是第一個檔案，保留標題行，否則不保留
