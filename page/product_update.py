@@ -202,6 +202,15 @@ class ProductUpdate(customtkinter.CTkFrame):
                     else "product_update_text"
                 )
 
+                upload.run_process(
+                    os.path.join(base_path, "sdc_data/update", "product_update.csv"),
+                    pt,
+                    config_data[update_type],
+                    progress_callback=update_progress,
+                )
+
+                cron.run_process(base_path, pt, config_data[update_type])
+
                 pt(f"\n\n-----------所有任務執行完畢-----------")
             except Exception as e:
                 pt(f"{e}")
