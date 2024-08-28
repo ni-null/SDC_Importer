@@ -1,14 +1,17 @@
-### 流程
+### 介紹
+
+一個基於WP All Import創作的上傳更新工具
 
 1. 合併survey_item_list開頭CSV檔案
 2. 上傳合併後的檔案
-3. 觸發API
-
+3. 觸發API更新
 
 ### 打包
 
 ```
-git clone  https://github.com/ni-null/SDC_Importer.git 
+git clone  https://github.com/ni-null/SDC_Importer.git
+pip install -r requirements.txt
+
 ```
 
 建立 config.json 於根目錄
@@ -30,6 +33,10 @@ git clone  https://github.com/ni-null/SDC_Importer.git
   }
 }
 
+```
+
+```
+python build.py 
 ```
 
 ### 運行
