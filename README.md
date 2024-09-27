@@ -51,5 +51,5 @@ python build.py
 ### 狀態
 
 需出現 Response data : {"status":200,"message":"Import # complete"} 才表示完整執行成功  
-運行中需保持網路通順  
+運行中需保持網路通順(多次錯誤會停止)  
 ![Snipaste_2024-08-28_12-16-01](https://github.com/user-attachments/assets/8cbd7a97-e54b-4675-8cac-852c61af94f6)
