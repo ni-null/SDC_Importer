@@ -1,8 +1,8 @@
 ### 介紹
 
-一個基於 WP All Import 創作的上傳更新工具
+一個基於 WP All Import 創作的上傳更新工具 sdc.org.tw
 
-1. 合併 survey_item_list 開頭 CSV 檔案
+1. 合併 survey_item_list 多個開頭 CSV 檔案 ，轉換欄位格式
 2. 上傳合併後的檔案
 3. 觸發 API 更新
 
